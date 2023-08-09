@@ -1,0 +1,43 @@
+﻿@model EmployeeTracking.InputModels.VacationInputModel;
+
+@{
+    ViewData["Title"] = "Vacation Page";
+}
+
+
+<div class="row-hp">
+    <h5>@ViewData["Days"] vacation days.</h5>
+    <p>You can't choose today or a day before today!</p>
+    <br />
+    <form method="post" asp-controller="Vacation" asp-action="Create">
+        <div asp-validation="ModelOnly"></div>
+        <div class="container shadow min-vh-50 py-2">
+            <div class="row justify-content-center pd-20">
+                <div class="col-lg-3 col-sm-6">
+                    <label asp-for="StartDate" for="startDate">Start Date</label>
+                    <input asp-for="StartDate" id="startDate" class="form-control" type="date" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <label asp-for="EndDate" for="endDate">End Date</label>
+                    <input asp-for="EndDate" id="endDate" class="form-control" type="date" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 mt-5 col-6">
+                <label asp-for="Description" for="" class="form-label">Description:</label>
+                <textarea asp-for="Description" class="form-control" id="" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+
+        <br />
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

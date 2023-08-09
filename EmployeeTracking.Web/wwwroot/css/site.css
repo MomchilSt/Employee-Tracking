@@ -1,0 +1,46 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.row {
+    justify-content: center;
+}
+
+.form-floating {
+    margin-top: 15px;
+}
+
+#login-submit {
+    margin-top: 20px;
+}
+
+#registerSubmit {
+    margin-top: 20px;
+}
+
+.row-hp {
+    text-align: center;
+}
+
+.pd-20 {
+    padding-bottom: 20px;
+}
+
+.container {
+    text-align: -webkit-center;
+}

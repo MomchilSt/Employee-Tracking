@@ -1,0 +1,155 @@
+﻿@using EmployeeTracking.Data.Data.Models.Enums;
+@model EmployeeTracking.ViewModel.VacationHomeViewModel;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Manager"))
+{
+    <br />
+    <h5>Manager Panel - Vacations</h5>
+    <br />
+    <table class="table">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.AllPendingVacations.Any())
+            {
+                @for (int i = 0; i < Model.AllPendingVacations.Count; i++)
+                {
+                    <tr>
+                        <th scope="row">@(i + 1)</th>
+                        <td>@Html.DisplayFor(x => x.AllPendingVacations[i].StartDate)</td>
+                        <td>@Html.DisplayFor(x => x.AllPendingVacations[i].EndDate)</td>
+                        <td>@Model.AllPendingVacations[i].Description</td>
+                        <th>Pending</th>
+                        <th><a class=" btn btn-success" href="/Vacation/Approve?vacationId=@Model.AllPendingVacations[i].Id">Approve</a></th>
+                        <th>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Decline</button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Decline Message</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" asp-controller="Vacation" asp-action="Decline">
+                                                <div class="mb-3">
+                                                    <label for="message-text" class="col-form-label">Message:</label>
+                                                    <textarea name="message" class="form-control" id="message-text"></textarea>
+                                                </div>
+                                                <input hidden name="vacationId" value="@Model.AllPendingVacations[i].Id">
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Send message</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+}
+
+<div>
+    <br />
+    <h5>Pending Vacations</h5>
+    <br />
+    <table class="table">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.PendingVacations.Count; i++)
+            {
+                <tr>
+                    <th scope="row">@(i + 1)</th>
+                    <td>@Html.DisplayFor(x => x.PendingVacations[i].StartDate)</td>
+                    <td>@Html.DisplayFor(x => x.PendingVacations[i].EndDate)</td>
+                    <td>@Model.PendingVacations[i].Description</td>
+                    <th>Pending</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <h5>Approved Vacations</h5>
+    <br />
+    <table class="table">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.ApprovedVacations.Count; i++)
+            {
+                <tr class="table-success">
+                    <th scope="row">@(i + 1)</th>
+                    <td>@Html.DisplayFor(x => x.ApprovedVacations[i].StartDate)</td>
+                    <td>@Html.DisplayFor(x => x.ApprovedVacations[i].EndDate)</td>
+                    <td>@Model.ApprovedVacations[i].Description</td>
+                    <th>Approved</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <h5>Declined Vacations</h5>
+    <br />
+    <table class="table">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Declined Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.DeclinedVacations.Count; i++)
+            {
+                <tr class="table-danger">
+                    <th scope="row">@(i + 1)</th>
+                    <td>@Html.DisplayFor(x => x.DeclinedVacations[i].StartDate)</td>
+                    <td>@Html.DisplayFor(x => x.DeclinedVacations[i].EndDate)</td>
+                    <td>@Model.DeclinedVacations[i].Description</td>
+                    <th>Declined</th>
+                    <td>@Model.DeclinedVacations[i].DeclineNote</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
